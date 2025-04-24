@@ -1,0 +1,63 @@
+4/3/2025
+ - Added the setup code
+4/4/2025
+ - Added the Basic game
+ - Tile grid
+ - Blocks on the grid
+ - Blocks moving with the mouse
+4/7/2025
+ - Added better moving blocks with the mouse
+ - Blocks now link to the closest tile.
+ - Blocks can't be stacked
+ - Blocks return to original position if tried to stack
+4/9/2025
+ - Added a new block
+ - Added the ability to merge blocks
+ - Cleaned up the code to use inheritance
+ - Held blocks are now on top of the others
+2/10/2025
+ - Added new Blocks
+ - Added the ability to change to different blocks when merging
+ - Renamed different things
+ - Started work on trying to use block with 128x64 size and the rect issues with that.
+ - Added changes to groups, added Inheritance for Triangles and Squares
+ - Slowly working though all the workings of the 128x64 squares.
+2/14/2025
+ - Added a 64x64 Flipper to a Block
+ - Changed up some code.
+2/15/2025
+ - Changed the Flippers to be on the proper layer
+ - Added Flippers to All
+ - Now have direction and proper placement
+ - Added the sprite for block 6
+2/16/2025
+ - Changed Pixel software to Aseprite for transparent Tubes
+ - Added the Right Tube.
+ - Expanded the Window A little. 
+2/17/2025
+ - Created and Added all the other Tubes
+ - Getting used to Aseprite
+ - Created the Ball Sprite
+ - Added the Ball to the Game
+ - Ball has movement, can bounce off blocks
+ - Ball can go into the tubes
+2/18/2025
+ - The Tubes are now fully working
+ - The ball can go in any direction in the tubes
+ - Added the bouncing off blocks when moving vertically
+ - Now able to Enter through the top tubes.
+
+
+
+Close to Work on
+ - Trinagle Ball Bounce
+ - 
+
+
+
+ - if the ball hits a trinagle update the ball to 
+
+
+ - If it collides with a trinagle let the ball continue moving until the balls X is greater than the 
+   Trinagles center X then update the ball to have the center of the ball be the center of the triangle
+   and change the direction up/down... ect.
