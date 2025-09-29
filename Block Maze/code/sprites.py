@@ -152,7 +152,7 @@ class Ball(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(ball_image, (16, 16))
         self.rect = self.image.get_frect(center = pos)
         self.inside_tube = False
-        self.speed = 50
+        self.speed = 300
     
     def block_collision(self): #Switches direction when colliding with block
         for block in self.block_sprites:
@@ -172,7 +172,7 @@ class Ball(pygame.sprite.Sprite):
                     self.rect.top = block.rect.bottom
                     self.direction.y *= -1
 
-    def tube_collision(self): #Hits a Tube
+    def tube_collision(self): #Hits a Tube #should move this inside a Tube Class
         for tube in self.tube_sprites:
             if tube.rect.colliderect(self.rect):
                 if self.direction.x > 0 and not self.inside_tube: #Right Tubes
@@ -187,6 +187,7 @@ class Ball(pygame.sprite.Sprite):
                         self.rect.center = tube.rect.center
                         self.direction.y = 1
                         self.direction.x = 0
+                        print(1)
                 elif self.direction.y > 0 and not self.inside_tube: #Bottom Tubes
                     if self.rect.center[1] >= tube.rect.center[1]:
                         self.inside_tube = True
@@ -229,7 +230,7 @@ class Corner_Tube(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(block_image, (64, 64))
         self.rect = self.image.get_frect(topleft = pos)
 
-    def turn_ball(self):
+    def turn_ball(self): #Turns the ball if it hits a corner
         for ball in self.ball_sprites:
             if ball.rect.colliderect(self.rect):
                 if self.side == 'Bottom Right':
@@ -272,6 +273,41 @@ class Corner_Tube(pygame.sprite.Sprite):
     def update(self, dt):
         self.turn_ball()
 
+class Left_Exit_Tube(pygame.sprite.Sprite):
+    def __init__(self, groups, image, pos, ball_sprites):
+        super().__init__(groups)
+        self.ball_sprites = ball_sprites
+        self.image = pygame.transform.scale(image, (64, 64))
+        self.rect = self.image.get_frect(topleft = pos)
+        self.exiting_tube = False
+        self.reentered = False
+
+    def exit_tube(self):
+        for ball in self.ball_sprites:
+            if ball.rect.colliderect(self.rect): #Checks if the Ball reentered the same Tube.
+                if ball.direction.x == -1 and not self.reentered:
+                    self.reentered = True
+                elif (self.rect.center[1] <= ball.rect.center[1]) and ball.direction.y == 1 and not self.reentered: #Send the Ball out, Ball moving down
+                    ball.rect.center = self.rect.center
+                    ball.direction.y = 0
+                    ball.direction.x = 1
+                    self.exiting_tube = True #The Ball is leaving the Tubes
+                elif (self.rect.center[1] >= ball.rect.center[1]) and ball.direction.y == -1 and not self.reentered: #Send the Ball out, Ball moving Up
+                    ball.rect.center = self.rect.center
+                    ball.direction.y = 0
+                    ball.direction.x = 1
+                    self.exiting_tube = True #The Ball is leaving the Tubes
+            elif not ball.rect.colliderect(self.rect) and self.exiting_tube: #Ball stops colliding and is now on the Game Floor
+                ball.inside_tube = False #left it go back into the Tubes later
+                self.exiting_tube = False
+                self.reentered = False
+            elif not ball.rect.colliderect(self.rect) and self.reentered: #Lets the Ball exit again next time it comes around
+                self.reentered = False
+
+
+    def update(self, dt):
+        self.exit_tube()
+                
 
 
 class Bottom_Right_Corner_Tube(Corner_Tube): #Make this just Corner Class.

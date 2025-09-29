@@ -45,19 +45,21 @@ class Game:
                 y = (row * TILE_SIZE)
                 if row == 0 and (col != 0 and col != GRID_COLUMNS + 1): #Top
                     self.background_tile = Background_Tile((self.all_sprites, self.tube_sprites), self.tile_surf['Top_Tube'], (x,y))
-                if col == 0 and (row != 0 and row != GRID_ROWS + 1): #Left
+                elif col == 0 and (row != 0 and row != GRID_ROWS + 1) and row != 3: #Left
                     self.background_tile = Background_Tile((self.all_sprites, self.tube_sprites), self.tile_surf['Left_Tube'], (x,y))
-                if col == GRID_COLUMNS + 1 and (row != 0 and row != GRID_ROWS + 1): #Right
+                elif col == 0 and row == 3:
+                    self.background_tile = Left_Exit_Tube((self.all_sprites, self.tube_sprites), self.tile_surf['Left_Exit_Tube'], (x,y), self.ball_sprites)
+                elif col == GRID_COLUMNS + 1 and (row != 0 and row != GRID_ROWS + 1): #Right
                     self.background_tile = Background_Tile((self.all_sprites, self.tube_sprites), self.tile_surf['Right_Tube'], (x,y))
-                if row == (GRID_ROWS + 1) and (col != 0 and col != GRID_COLUMNS + 1): #Bottom
+                elif row == (GRID_ROWS + 1) and (col != 0 and col != GRID_COLUMNS + 1): #Bottom
                     self.background_tile = Background_Tile((self.all_sprites, self.tube_sprites), self.tile_surf['Bottom_Tube'], (x,y))
-                if row == 0 and col == 0: #Top Left Corner
+                elif row == 0 and col == 0: #Top Left Corner
                     self.background_tile = Top_Left_Corner_Tube((self.all_sprites, self.tube_sprites), self.tile_surf['Top_Left_Tube'], (x,y), self.ball_sprites)
-                if row == 0 and col == GRID_COLUMNS + 1: #Top Right Corner
+                elif row == 0 and col == GRID_COLUMNS + 1: #Top Right Corner
                     self.background_tile = Top_Right_Corner_Tube((self.all_sprites, self.tube_sprites), self.tile_surf['Top_Right_Tube'], (x,y), self.ball_sprites)
-                if row == GRID_ROWS + 1 and col == 0: #Bottom Left Corner
+                elif row == GRID_ROWS + 1 and col == 0: #Bottom Left Corner
                     self.background_tile = Bottom_Left_Corner_Tube((self.all_sprites, self.tube_sprites), self.tile_surf['Bottom_Left_Tube'], (x,y), self.ball_sprites)
-                if row == GRID_ROWS + 1 and col == GRID_COLUMNS + 1: #Bottom Right Corner
+                elif row == GRID_ROWS + 1 and col == GRID_COLUMNS + 1: #Bottom Right Corner
                     self.background_tile = Bottom_Right_Corner_Tube((self.all_sprites, self.tube_sprites), self.tile_surf['Bottom_Right_Tube'], (x,y), self.ball_sprites)
 
 
@@ -80,7 +82,7 @@ class Game:
     
     def run(self):
         while self.running:
-            dt = self.clock.tick(120) / 1000
+            dt = self.clock.tick(165) / 1000
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
